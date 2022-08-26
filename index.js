@@ -7,6 +7,33 @@ const expresslayouts=require('express-ejs-layouts');
 //db
 const db=require('./config/mongoose');
 
+
+
+const path=require('path');
+
+
+//used for session cookie
+const session=require('express-session');
+const passport=require('passport');
+
+
+const passportLocal=require('./config/passport-local-strategy');
+
+
+const MongoStore=require('connect-mongo');
+
+//
+const sassmiddleware=require('node-sass-middleware');
+
+app.use(sassmiddleware({
+    src:'./assets/scss',
+    dest:'./assets/css',
+    debug:true,
+    outputStyle:'expanded',
+    prefix:'/css'
+
+}));
+
 app.use(express.urlencoded());
 app.use(cookieparser());
 
@@ -18,12 +45,41 @@ app.set('layout extractScripts',true);
 
 
 
-//use express router
-app.use('/',require('./routes'));
+
 
 //set up view engine
 app.set('view engine','ejs');
 app.set('views','./views');
+
+//mongo db is used to store session cookie in the db
+app.use(session({
+    //name of the section cookie
+    name:'codeial',
+    //todo change the secret before deployment in production mode
+    secret:'blahsomething',
+    saveUninitialized:false,
+    resave:false,
+    cookie:{
+        maxAge:(1000*60*100)
+    },
+    //it store the section information even if server is restart ,its remain in the memory/database so that sign in user dont get reset even server restart, that info does not get lost
+    store: MongoStore.create(
+        {
+           mongoUrl:'mongodb://localhost:27017/codeial_development',
+            autoRemove:'disabled'
+        },
+        function(err){
+            console.log(err || 'connect mongo db setup ok');
+        }
+    )
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(passport.setAuthenticatedUser);
+//use express router
+app.use('/',require('./routes'));
 
 
 
