@@ -1,28 +1,30 @@
 const mongoose = require('mongoose');
+const router = require('../routes');
+const { route } = require('../routes');
 
 
-const postSchema = new mongoose.Schema({
+const commentSchema=new mongoose.Schema({
     content:{
         type:String,
         required:true
     },
-    //link it to user 
+    //comments belongs to a user
     user:{
         //type is a reference..whenever post is created it is linked to the user, so its refered to the user schema
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
-
-    },
-    // include array of ids of all comments in this post schema itself
-    comments:[{
+     },
+     post:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Comment'
-    }]
+        ref:'Post'
 
+     }
 
 },{
     timestamps:true
 });
 
-const Post=mongoose.model('Post',postSchema);
-module.exports=Post;
+
+
+const Comment=mongoose.model('Comment',commentSchema);
+module.exports=Comment;
