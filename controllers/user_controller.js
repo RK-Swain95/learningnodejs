@@ -1,9 +1,32 @@
 const User=require('../models/user');
 
 module.exports.profile=function(req,res){
+    User.findById(req.params.id,function(err,user){
 
-    return res.render('user_profile',{title:'profile'});
+        return res.render('user_profile',{
+            title:'profile',
+            profile_user:user
+    
+    
+    });
+
+    });  
 }
+//for update in profile page
+module.exports.update=function(req,res){
+    // to check if any other person change pasram is in html so for athenticate
+    if(req.user.id==req.params.id){
+        User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+          return res.redirect('back');
+        });
+    }else{
+        return res.status(401).send('unauthorized');
+    }
+}
+
+
+
+
 module.exports.work=function(req,res){
     res.end('<h1>user work</h1>');
 }

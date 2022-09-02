@@ -1,6 +1,7 @@
 const { populate } = require('../models/post');
 const Post=require('../models/post');
 const { post } = require('../routes');
+const User=require('../models/user');
 
 module.exports.home=function(req,res){
     // console.log(req.cookies);
@@ -23,10 +24,16 @@ module.exports.home=function(req,res){
         }
     })
     .exec(function(err,posts){
-        return res.render('home',{
-            title:'home',
-            posts:posts
-        });
+        // to show all the user in the home page who sign in
+        User.find({},function(err,users){
+            return res.render('home',{
+                title:'home',
+                posts:posts,
+                all_users:users
+            });
+
+        })
+      
     })
     
 }
