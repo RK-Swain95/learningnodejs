@@ -5,9 +5,10 @@ const User=require('../models/user');
 
 //aunthentication
 passport.use(new LocalStrategy({
-    usernameField:'email'
+    usernameField:'email',
+    passReqToCallback: true
 },
-function(email,password,done){//done call back function
+function(req,email,password,done){//done call back function
     //find a user and establish the identity
     User.findOne({email:email},function(err,user){
         if(err){

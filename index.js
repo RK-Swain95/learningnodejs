@@ -25,6 +25,11 @@ const MongoStore=require('connect-mongo');
 //
 const sassmiddleware=require('node-sass-middleware');
 
+//to connect flash
+const flash=require('connect-flash');
+//to access custom own middleware
+const customMware=require('./config/middleware');
+
 app.use(sassmiddleware({
     src:'./assets/scss',
     dest:'./assets/css',
@@ -78,6 +83,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
+//we put flash after session bcoz it use session cookie
+app.use(flash());
+app.use(customMware.setFlash);
+
+
 //use express router
 app.use('/',require('./routes'));
 

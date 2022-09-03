@@ -3,7 +3,10 @@ const Post=require('../models/post');
 const { post } = require('../routes');
 const User=require('../models/user');
 
-module.exports.home=function(req,res){
+
+
+//async await
+module.exports.home= async function(req,res){
     // console.log(req.cookies);
     // res.cookie('user_id',25);
     // Post.find({},function(err,posts){
@@ -13,27 +16,30 @@ module.exports.home=function(req,res){
     //         posts:posts
     //     });
     // });
+    try{
+         //populate the user from user id from posts
+   let posts= await Post.find({})
+   .populate('user')
+   .populate({
+       path:'comments',
+       populate:{
+           path:'user'
+       }
+   });       
+  
+       // to show all the user in the home page who sign in
+      let users= await User.find({});
+    return res.render('home',{
+       title:'home',
+       posts:posts,
+       all_users:users
+           });
 
-    //populate the user from user id from posts
-    Post.find({})
-    .populate('user')
-    .populate({
-        path:'comments',
-        populate:{
-            path:'user'
+    }catch(err){
+        console.log('Error',err);
+        return;
+
+    }
+   
+
         }
-    })
-    .exec(function(err,posts){
-        // to show all the user in the home page who sign in
-        User.find({},function(err,users){
-            return res.render('home',{
-                title:'home',
-                posts:posts,
-                all_users:users
-            });
-
-        })
-      
-    })
-    
-}
