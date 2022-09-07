@@ -1,9 +1,10 @@
-<li>
+<!--id giving bcoz at some time i delete this post-->
+<li id="post-<%= post._id %>">
     <p>
 
 <% if(locals.user && locals.user.id==post.user.id){%>
 <small>
-    <a href="/post/destroy/<%=post.id%>">Delete</a>
+    <a class="delete-post-button" href="/post/destroy/<%=post.id%>">Delete</a>
 </small>
 <%}%>
 
@@ -27,6 +28,7 @@
 
 
 </form>
+
 <div class="post-comment-lists">
     <ul id="post-comment-<%=post._id%>">
         <%for(comment of post.comments){%>

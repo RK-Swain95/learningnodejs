@@ -42,7 +42,11 @@ app.use(sassmiddleware({
 app.use(express.urlencoded());
 app.use(cookieparser());
 
-app.use(express.static('assets'));
+app.use(express.static('./assets'));
+//index js joints with uploads which means codial/uploads available on /upload path
+//make upload path is available for browser
+app.use('/uploads',express.static(__dirname+ '/uploads'));
+
 app.use(expresslayouts);
 //extract styles ans scripts from sub pages into to layout
 app.set('layout extractStyles',true);
@@ -61,6 +65,7 @@ app.use(session({
     //name of the section cookie
     name:'codeial',
     //todo change the secret before deployment in production mode
+    //encodeing
     secret:'blahsomething',
     saveUninitialized:false,
     resave:false,
