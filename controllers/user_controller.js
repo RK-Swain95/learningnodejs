@@ -113,6 +113,7 @@ module.exports.createsession=function(req,res){
 
 //
 module.exports.destroySession=function(req,res){
+    //logout fun given by passport
     req.logout(function(err) {
         if (err) { return next(err); }
         req.flash('success','You are logged out');

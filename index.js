@@ -18,6 +18,8 @@ const passport=require('passport');
 
 
 const passportLocal=require('./config/passport-local-strategy');
+//for jwt
+const passportJWT=require('./config/passport-jwt-strategy');
 
 
 const MongoStore=require('connect-mongo');
@@ -60,7 +62,7 @@ app.set('layout extractScripts',true);
 app.set('view engine','ejs');
 app.set('views','./views');
 
-//mongo db is used to store session cookie in the db
+//mongo store is used to store session cookie in the db
 app.use(session({
     //name of the section cookie
     name:'codeial',

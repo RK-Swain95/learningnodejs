@@ -8,4 +8,6 @@ router.get('/',homeController.home);
 router.use('/users',require('./users'));
 router.use('/post',require('./post'));
 router.use('/comments',require('./comments'));
+//for api folder
+router.use('/api',require('./api'));
 module.exports=router;

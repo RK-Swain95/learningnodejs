@@ -57,7 +57,7 @@ passport.deserializeUser(function(id,done){
 });
 //send the data of current user to views
 
-
+//for sending user data to the views
 //check the user is sign in or not
 passport.checkAuthentication = function(req,res,next){
     //if the user is signed in ,then pass on the request to the next function(controller's action)
