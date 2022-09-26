@@ -17,7 +17,7 @@ module.exports.createsession=async function(req,res){
          }
          //if user is found
          return res.json(200,{
-            message:"sign in successfully keeep the token safe !!",
+            message:"login in successfully keeep the token safe !!",
             //generating the token
             data:{
                 token:jwt.sign(user.toJSON(),'codeial',{expiresIn:'100000'})
